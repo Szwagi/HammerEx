@@ -10,3 +10,6 @@ Written in a couple of hours as a test, if you're looking for quality code this 
 - `trigger_anti_bhop`  Blocks bhopping on a block
 - `trigger_anti_crouch`  Blocks crouching
 
+## How to install
+1. [Download HammerEx from releases](https://github.com/Szwagi/HammerEx/releases).
+2. Unzip the contents into /bin/ inside your CS:GO directory. *Good idea to backup CmdSeq.wc file.
