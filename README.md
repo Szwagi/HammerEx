@@ -12,4 +12,6 @@ Written in a couple of hours as a test, if you're looking for quality code this 
 
 ## How to install
 1. [Download HammerEx from releases](https://github.com/Szwagi/HammerEx/releases).
-2. Unzip the contents into /bin/ inside your CS:GO directory. *Good idea to backup CmdSeq.wc file.
+2. Unzip the contents into /bin/ inside your CS:GO directory. *Backup CmdSeq.wc*
+3. Download and open the [Example Map](https://raw.githubusercontent.com/Szwagi/HammerEx/main/kz_hammerex_example.vmf). *Right-click and Save As...*
+4. Go to Expert/Advanced compile settings and choose one of the HammerEx configurations.
