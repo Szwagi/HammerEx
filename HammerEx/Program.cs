@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Globalization;
 using Gameloop.Vdf;
 using Gameloop.Vdf.Linq;
 
@@ -38,6 +39,8 @@ namespace HammerEx
         public static void Main(string[] args)
         {
             try {
+                CultureInfo.CurrentCulture = new CultureInfo("en-US");
+
                 if (args.Length != 1) {
                     WriteError("Usage: HammerEx kz_mymap.vmf");
                     return;
