@@ -69,7 +69,6 @@ namespace HammerEx
             }
             catch (Exception ex) {
                 WriteError(ex.Message);
-                return;
             }
         }
 
@@ -104,6 +103,15 @@ namespace HammerEx
             tp.rz = float.Parse(angles[2]);
 
             TeleportDestinations.Add(targetName, tp);
+        }
+
+        public static void AppendSolids(VProperty vdf, StringBuilder sb)
+        {
+            foreach (var prop in vdf.Value.Cast<VProperty>()) {
+                if (prop.Key == "solid") {
+                    sb.AppendLine(prop.ToString());
+                }
+            }
         }
 
         public static bool ProcessMap(VProperty vdf, StringBuilder sb)
@@ -158,10 +166,8 @@ namespace HammerEx
             sb.AppendLine(world.Value.ToString().Substring(1));
         }
 
-        public static void ProcessTriggerReset(VProperty bhop, StringBuilder sb)
+        public static void ProcessTriggerReset(VProperty reset, StringBuilder sb)
         {
-            var propSolid = bhop.Value["solid"];
-
             // Write the filter reset trigger.
             sb.AppendLine("entity {");
             sb.AppendLine("classname trigger_multiple");
@@ -170,8 +176,7 @@ namespace HammerEx
             sb.AppendLine("connections {");
             sb.AppendLine($"OnStartTouch \"!activator{ESC}AddOutput{ESC}targetname default{ESC}0.02{ESC}-1\"");
             sb.AppendLine("}");
-            sb.AppendLine("solid ");
-            sb.AppendLine(propSolid.ToString());
+            AppendSolids(reset, sb);
             sb.AppendLine("}");
         }
 
@@ -180,7 +185,6 @@ namespace HammerEx
             var propDelay = bhop.Value["delay"];
             var propTarget = bhop.Value["target"];
             var propUseLandmarkAngles = bhop.Value["UseLandmarkAngles"];
-            var propSolid = bhop.Value["solid"];
 
             if (bhop.Value["target"] == null) {
                 WriteError("Target Destination on trigger_bhop is empty.");
@@ -200,8 +204,7 @@ namespace HammerEx
             sb.AppendLine($"filtername \"{filterName}\"");
             sb.AppendLine($"target \"{target}\"");
             sb.AppendLine($"UseLandmarkAngles \"{useLandmarkAngles}\"");
-            sb.AppendLine("solid ");
-            sb.AppendLine(propSolid.ToString());
+            AppendSolids(bhop, sb);
             sb.AppendLine("}");
 
             // Write the filter trigger.
@@ -213,8 +216,7 @@ namespace HammerEx
             sb.AppendLine($"OnStartTouch \"!activator{ESC}AddOutput{ESC}targetname {filterName}{ESC}{delay}{ESC}-1\"");
             sb.AppendLine($"OnStartTouch \"!activator{ESC}AddOutput{ESC}targetname default{ESC}{delay + 0.02}{ESC}-1\"");
             sb.AppendLine("}");
-            sb.AppendLine("solid ");
-            sb.AppendLine(propSolid.ToString());
+            AppendSolids(bhop, sb);
             sb.AppendLine("}");
 
             // Write filter.
@@ -238,7 +240,6 @@ namespace HammerEx
             var propDelay = bhop.Value["delay"];
             var propTarget = bhop.Value["target"];
             var propUseLandmarkAngles = bhop.Value["UseLandmarkAngles"];
-            var propSolid = bhop.Value["solid"];
 
             if (bhop.Value["target"] == null) {
                 WriteError("Target Destination on trigger_bhop_single is empty.");
@@ -258,8 +259,7 @@ namespace HammerEx
             sb.AppendLine($"filtername \"{filterName}\"");
             sb.AppendLine($"target \"{target}\"");
             sb.AppendLine($"UseLandmarkAngles \"{useLandmarkAngles}\"");
-            sb.AppendLine("solid ");
-            sb.AppendLine(propSolid.ToString());
+            AppendSolids(bhop, sb);
             sb.AppendLine("}");
 
             // Write the filter trigger.
@@ -270,8 +270,7 @@ namespace HammerEx
             sb.AppendLine("connections {");
             sb.AppendLine($"OnStartTouch \"!activator{ESC}AddOutput{ESC}targetname {filterName}{ESC}{delay}{ESC}-1\"");
             sb.AppendLine("}");
-            sb.AppendLine("solid ");
-            sb.AppendLine(propSolid.ToString());
+            AppendSolids(bhop, sb);
             sb.AppendLine("}");
 
             // Write filter.
@@ -292,7 +291,6 @@ namespace HammerEx
             var propTarget = bhop.Value["target"];
             var propUseLandmarkAngles = bhop.Value["UseLandmarkAngles"];
             var propIndex = bhop.Value["index"];
-            var propSolid = bhop.Value["solid"];
 
             if (bhop.Value["target"] == null) {
                 WriteError("Target Destination on trigger_bhop_sequential is empty.");
@@ -319,8 +317,7 @@ namespace HammerEx
             sb.AppendLine($"filtername \"{filterName}\"");
             sb.AppendLine($"target \"{target}\"");
             sb.AppendLine($"UseLandmarkAngles \"{useLandmarkAngles}\"");
-            sb.AppendLine("solid ");
-            sb.AppendLine(propSolid.ToString());
+            AppendSolids(bhop, sb);
             sb.AppendLine("}");
 
             // Write the filter trigger.
@@ -331,8 +328,7 @@ namespace HammerEx
             sb.AppendLine("connections {");
             sb.AppendLine($"OnStartTouch \"!activator{ESC}AddOutput{ESC}targetname {filterName}{ESC}{delay}{ESC}-1\"");
             sb.AppendLine("}");
-            sb.AppendLine("solid ");
-            sb.AppendLine(propSolid.ToString());
+            AppendSolids(bhop, sb);
             sb.AppendLine("}");
 
             // Write filter.
@@ -351,10 +347,8 @@ namespace HammerEx
             return true;
         }
 
-        public static void ProcessTriggerAntiBhop(VProperty bhop, StringBuilder sb)
+        public static void ProcessTriggerAntiBhop(VProperty antibhop, StringBuilder sb)
         {
-            var propSolid = bhop.Value["solid"];
-
             sb.AppendLine("entity {");
             sb.AppendLine("classname \"trigger_multiple\"");
             sb.AppendLine("spawnflags \"4097\"");
@@ -365,18 +359,16 @@ namespace HammerEx
             sb.AppendLine($"OnStartTouch \"!activator{ESC}AddOutput{ESC}gravity 1{ESC}0.2{ESC}-1\"");
             sb.AppendLine($"OnStartTouch \"!activator{ESC}AddOutput{ESC}gravity 40{ESC}0.1{ESC}-1\"");
             sb.AppendLine("}");
-            sb.AppendLine("solid ");
-            sb.AppendLine(propSolid.ToString());
+            AppendSolids(antibhop, sb);
             sb.AppendLine("}");
         }
 
-        public static bool ProcessTriggerAntiCrouch(VProperty bhop, StringBuilder sb)
+        public static bool ProcessTriggerAntiCrouch(VProperty anticrouch, StringBuilder sb)
         {
-            var propTarget = bhop.Value["target"];
-            var propUseLandmarkAngles = bhop.Value["UseLandmarkAngles"];
-            var propSolid = bhop.Value["solid"];
+            var propTarget = anticrouch.Value["target"];
+            var propUseLandmarkAngles = anticrouch.Value["UseLandmarkAngles"];
 
-            if (bhop.Value["target"] == null) {
+            if (anticrouch.Value["target"] == null) {
                 WriteError("Target Destination on trigger_anti_crouch is empty.");
                 return false;
             }
@@ -409,8 +401,7 @@ namespace HammerEx
                 sb.AppendLine($"OnTrigger \"!activator{ESC}RunScriptCode{ESC}if(self.GetBoundingMaxs().z<70.0){{local v=self.GetVelocity();v.z=0;self.SetVelocity(v);self.SetOrigin(Vector({px},{py},{pz}));}}{ESC}0.03{ESC}-1\"");
             }
             sb.AppendLine("}");
-            sb.AppendLine("solid ");
-            sb.AppendLine(propSolid.ToString());
+            AppendSolids(anticrouch, sb);
             sb.AppendLine("}");
 
             return true;
