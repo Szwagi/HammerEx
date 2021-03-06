@@ -87,8 +87,8 @@ namespace HammerEx
 
         public static void CacheInfoTeleportDestination(VProperty prop)
         {
-            var targetName = prop.Value["targetname"].ToString();
-            if (targetName.Length == 0)
+            var targetName = prop.Value["targetname"]?.ToString();
+            if (targetName == null || targetName.Length == 0)
                 return;
 
             var origin = prop.Value["origin"].ToString().Split(' ');
