@@ -1,3 +1,8 @@
+# Deprecated!!!
+You might want to use KZ mapping API instead (available soon).
+There are issues with this program, use at your own risk, I will not provide support.
+Leaving it up in case you already made a map that uses HammerEx.
+
 # HammerEx
 Valve Hammer Editor addon that adds convinience entities for KZ mappers.
 Written in a couple of hours as a test, if you're looking for quality code this is not the place, but it works.
